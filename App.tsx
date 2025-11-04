@@ -62,7 +62,8 @@ const App: React.FC = () => {
       setPrompt(description);
     } catch (err) {
       console.error(err);
-      setError('Не смог сгенерить описание. Смотри консоль.');
+      const errorMessage = err instanceof Error ? err.message : 'Неизвестная ошибка';
+      setError(`Не смог сгенерить описание: ${errorMessage}`);
     } finally {
       setIsDescribing(false);
     }
@@ -83,7 +84,8 @@ const App: React.FC = () => {
       setGeneratedImages(images);
     } catch (err) {
       console.error(err);
-      setError('Ошибка генерации. Проверь консоль, там все детали.');
+      const errorMessage = err instanceof Error ? err.message : 'Неизвестная ошибка';
+      setError(`Ошибка генерации: ${errorMessage}`);
     } finally {
       setIsLoading(false);
     }
@@ -113,7 +115,8 @@ const App: React.FC = () => {
       setGeneratedImages(images);
     } catch (err) {
       console.error(err);
-      setError('Не вышло сделать вариации. Смотри консоль.');
+      const errorMessage = err instanceof Error ? err.message : 'Неизвестная ошибка';
+      setError(`Не вышло сделать вариации: ${errorMessage}`);
     } finally {
       setVaryingIndex(null);
     }
@@ -145,7 +148,8 @@ const App: React.FC = () => {
       setEditingImage(null);
     } catch (err) {
       console.error(err);
-      setError('Не смог применить правку. Консоль в помощь.');
+      const errorMessage = err instanceof Error ? err.message : 'Неизвестная ошибка';
+      setError(`Не смог применить правку: ${errorMessage}`);
     } finally {
       setIsEditing(false);
     }

@@ -5,6 +5,7 @@ interface ImageInput {
 
 export const generateDescriptionFromImage = async (image: ImageInput): Promise<string> => {
   try {
+    console.log('[geminiService] Calling generate-description API...');
     const response = await fetch('/api/generate-description', {
       method: 'POST',
       headers: {
@@ -14,19 +15,27 @@ export const generateDescriptionFromImage = async (image: ImageInput): Promise<s
     });
 
     if (!response.ok) {
-      throw new Error(`API error: ${response.statusText}`);
+      const errorData = await response.json().catch(() => ({ error: response.statusText }));
+      console.error('[geminiService] API error:', {
+        status: response.status,
+        statusText: response.statusText,
+        errorData
+      });
+      throw new Error(`API error (${response.status}): ${errorData.details || errorData.error || response.statusText}`);
     }
 
     const data = await response.json();
+    console.log('[geminiService] Description generated successfully');
     return data.description;
   } catch (error) {
-    console.error("Error generating description with Gemini API:", error);
-    throw new Error("Failed to generate description from the image.");
+    console.error("[geminiService] Error generating description:", error);
+    throw error;
   }
 };
 
 export const editImageWithPrompt = async (originalImage: ImageInput, editInstruction: string, stylePrompt: string): Promise<string> => {
   try {
+    console.log('[geminiService] Calling edit-image API...');
     const response = await fetch('/api/edit-image', {
       method: 'POST',
       headers: {
@@ -36,19 +45,27 @@ export const editImageWithPrompt = async (originalImage: ImageInput, editInstruc
     });
 
     if (!response.ok) {
-      throw new Error(`API error: ${response.statusText}`);
+      const errorData = await response.json().catch(() => ({ error: response.statusText }));
+      console.error('[geminiService] API error:', {
+        status: response.status,
+        statusText: response.statusText,
+        errorData
+      });
+      throw new Error(`API error (${response.status}): ${errorData.details || errorData.error || response.statusText}`);
     }
 
     const data = await response.json();
+    console.log('[geminiService] Image edited successfully');
     return data.editedImage;
   } catch (error) {
-    console.error("Error editing image with Gemini API:", error);
-    throw new Error("Failed to edit the image.");
+    console.error("[geminiService] Error editing image:", error);
+    throw error;
   }
 };
 
 export const generateStoryboards = async (prompt: string, image: ImageInput, stylePrompt: string): Promise<string[]> => {
   try {
+    console.log('[geminiService] Calling generate-storyboards API...');
     const response = await fetch('/api/generate-storyboards', {
       method: 'POST',
       headers: {
@@ -58,13 +75,20 @@ export const generateStoryboards = async (prompt: string, image: ImageInput, sty
     });
 
     if (!response.ok) {
-      throw new Error(`API error: ${response.statusText}`);
+      const errorData = await response.json().catch(() => ({ error: response.statusText }));
+      console.error('[geminiService] API error:', {
+        status: response.status,
+        statusText: response.statusText,
+        errorData
+      });
+      throw new Error(`API error (${response.status}): ${errorData.details || errorData.error || response.statusText}`);
     }
 
     const data = await response.json();
+    console.log('[geminiService] Storyboards generated successfully, count:', data.images?.length);
     return data.images;
   } catch (error) {
-    console.error("Error generating storyboards with Gemini API:", error);
-    throw new Error("Failed to generate images from the API.");
+    console.error("[geminiService] Error generating storyboards:", error);
+    throw error;
   }
 };
