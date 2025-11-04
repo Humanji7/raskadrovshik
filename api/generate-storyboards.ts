@@ -47,20 +47,35 @@ const generateSingleImage = async (prompt: string, image: any, stylePrompt: stri
 };
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  console.log('[generate-storyboards] Request received');
+
   if (req.method !== 'POST') {
+    console.log('[generate-storyboards] Method not allowed:', req.method);
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
     const { prompt, image, stylePrompt } = req.body;
 
+    console.log('[generate-storyboards] Params:', {
+      hasPrompt: !!prompt,
+      hasImage: !!image,
+      hasStylePrompt: !!stylePrompt,
+      imageSize: image?.base64?.length || 0,
+    });
+
     if (!prompt || !image || !stylePrompt) {
+      console.log('[generate-storyboards] Missing required fields');
       return res.status(400).json({ error: 'Missing required fields: prompt, image, stylePrompt' });
     }
 
     if (!image.base64 || !image.mimeType) {
+      console.log('[generate-storyboards] Invalid image data');
       return res.status(400).json({ error: 'Invalid image data' });
     }
+
+    console.log('[generate-storyboards] Starting generation of 4 images...');
+    const startTime = Date.now();
 
     const generationPromises = [
       generateSingleImage(prompt, image, stylePrompt),
@@ -71,9 +86,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const images = await Promise.all(generationPromises);
 
+    const duration = Date.now() - startTime;
+    console.log(`[generate-storyboards] Success! Generated 4 images in ${duration}ms`);
+
     return res.status(200).json({ images });
   } catch (error) {
-    console.error("Error generating storyboards:", error);
-    return res.status(500).json({ error: "Failed to generate storyboards." });
+    console.error("[generate-storyboards] Error:", error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error("[generate-storyboards] Error details:", errorMessage);
+    return res.status(500).json({
+      error: "Failed to generate storyboards.",
+      details: errorMessage
+    });
   }
 }
