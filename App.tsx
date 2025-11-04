@@ -43,6 +43,7 @@ const App: React.FC = () => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedStyle, setSelectedStyle] = useState<string>(styles[0].id);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
 
   const handleImageSelect = useCallback((selectedImage: ImageState) => {
     setImage(selectedImage);
@@ -253,7 +254,9 @@ const App: React.FC = () => {
         {/* Output Panel */}
         <div className="bg-gray-800 p-6 rounded-lg border border-gray-700 flex flex-col">
           <h2 className="text-lg font-semibold mb-4 text-yellow-400">4. Вот что вышло</h2>
-          <div className="flex-grow w-full bg-gray-900 rounded-md flex items-center justify-center p-4 min-h-[300px] lg:min-h-0">
+
+          {/* Main Preview Area */}
+          <div className="flex-grow w-full bg-gray-900 rounded-md flex items-center justify-center p-4 min-h-[400px] lg:min-h-[500px] relative">
             {isLoading && (
               <div className="text-center">
                  <svg className="animate-spin mx-auto h-10 w-10 text-yellow-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -268,62 +271,87 @@ const App: React.FC = () => {
               <p className="text-gray-500">Здесь появятся 4 варианта твоего будущего шедевра.</p>
             )}
             {generatedImages.length > 0 && (
-               <div className="grid grid-cols-2 gap-4 w-full h-full">
-                {generatedImages.map((imgSrc, index) => (
-                  <div key={index} className="group aspect-w-1 aspect-h-1 bg-gray-700 rounded-md overflow-hidden relative">
-                    <img src={imgSrc} alt={`Сгенерированный кадр ${index + 1}`} className="w-full h-full object-cover" />
-                     {varyingIndex === index ? (
-                      <div className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center">
-                        <svg className="animate-spin h-8 w-8 text-yellow-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        <span className="text-sm mt-2 text-gray-300">Ищу варианты...</span>
-                      </div>
-                    ) : (
-                      <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center space-x-2">
-                        <button
-                          onClick={() => handleVaryImage(index)}
-                          title="Создать вариации"
-                          disabled={isLoading || varyingIndex !== null || editingImage !== null}
-                          className="flex items-center p-2 bg-gray-200/80 text-gray-900 font-bold rounded-full hover:bg-gray-200 disabled:bg-gray-600 disabled:cursor-not-allowed"
-                        >
-                           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 2h10v7h-2.586l-1.707-1.707a1 1 0 00-1.414 0L5 14.586V5z" />
-                            <path d="M15 12a1 1 0 01-1 1H6a1 1 0 01-1-1V9a1 1 0 011-1h1.586l1.707-1.707a1 1 0 011.414 0L14 9.414V12z" />
-                          </svg>
-                        </button>
-                        <button
-                          onClick={() => setEditingImage({ index, src: imgSrc })}
-                           title="Доработать напильником"
-                          disabled={isLoading || varyingIndex !== null || editingImage !== null}
-                          className="flex items-center p-2 bg-yellow-500/80 text-gray-900 font-bold rounded-full hover:bg-yellow-500 disabled:bg-gray-600 disabled:cursor-not-allowed"
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
-                            <path fillRule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clipRule="evenodd" />
-                          </svg>
-                        </button>
-                        <button
-                          onClick={() => handleDownloadImage(imgSrc, index)}
-                          title="Забрать себе"
-                          disabled={isLoading || varyingIndex !== null || editingImage !== null}
-                          className="flex items-center p-2 bg-gray-200/80 text-gray-900 font-bold rounded-full hover:bg-gray-200 disabled:bg-gray-600 disabled:cursor-not-allowed"
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
-                          </svg>
-                        </button>
-                      </div>
-                    )}
+              <div className="relative w-full h-full flex items-center justify-center">
+                <img
+                  src={generatedImages[selectedImageIndex]}
+                  alt={`Сгенерированный кадр ${selectedImageIndex + 1}`}
+                  className="max-w-full max-h-full object-contain"
+                />
+                {varyingIndex === selectedImageIndex && (
+                  <div className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center rounded-md">
+                    <svg className="animate-spin h-8 w-8 text-yellow-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span className="text-sm mt-2 text-gray-300">Ищу варианты...</span>
                   </div>
-                ))}
+                )}
+
+                {/* Action buttons overlay */}
+                <div className="absolute bottom-4 right-4 flex space-x-2">
+                  <button
+                    onClick={() => handleVaryImage(selectedImageIndex)}
+                    title="Создать вариации"
+                    disabled={isLoading || varyingIndex !== null || editingImage !== null}
+                    className="flex items-center p-3 bg-gray-200/90 text-gray-900 font-bold rounded-full hover:bg-gray-200 disabled:bg-gray-600 disabled:cursor-not-allowed shadow-lg transition-all"
+                  >
+                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 2h10v7h-2.586l-1.707-1.707a1 1 0 00-1.414 0L5 14.586V5z" />
+                      <path d="M15 12a1 1 0 01-1 1H6a1 1 0 01-1-1V9a1 1 0 011-1h1.586l1.707-1.707a1 1 0 011.414 0L14 9.414V12z" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={() => setEditingImage({ index: selectedImageIndex, src: generatedImages[selectedImageIndex] })}
+                     title="Доработать напильником"
+                    disabled={isLoading || varyingIndex !== null || editingImage !== null}
+                    className="flex items-center p-3 bg-yellow-500/90 text-gray-900 font-bold rounded-full hover:bg-yellow-500 disabled:bg-gray-600 disabled:cursor-not-allowed shadow-lg transition-all"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+                      <path fillRule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clipRule="evenodd" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={() => handleDownloadImage(generatedImages[selectedImageIndex], selectedImageIndex)}
+                    title="Забрать себе"
+                    disabled={isLoading || varyingIndex !== null || editingImage !== null}
+                    className="flex items-center p-3 bg-gray-200/90 text-gray-900 font-bold rounded-full hover:bg-gray-200 disabled:bg-gray-600 disabled:cursor-not-allowed shadow-lg transition-all"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </button>
+                </div>
               </div>
             )}
           </div>
+
+          {/* Thumbnail Gallery at Bottom */}
+          {generatedImages.length > 0 && (
+            <div className="mt-4 flex gap-3 overflow-x-auto pb-2">
+              {generatedImages.map((imgSrc, index) => (
+                <button
+                  key={index}
+                  onClick={() => setSelectedImageIndex(index)}
+                  className={`flex-shrink-0 w-24 h-24 rounded-md overflow-hidden border-2 transition-all ${
+                    selectedImageIndex === index
+                      ? 'border-yellow-500 ring-2 ring-yellow-500/50 scale-105'
+                      : 'border-gray-600 hover:border-gray-500'
+                  }`}
+                >
+                  <img
+                    src={imgSrc}
+                    alt={`Превью ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </button>
+              ))}
+            </div>
+          )}
+
           {generatedImages.length > 0 && !isLoading && varyingIndex === null && (
             <div className="mt-4">
-              <button 
+              <button
                 onClick={handleSubmit}
                 className="w-full py-2 px-4 font-semibold text-sm rounded-md transition-colors bg-gray-700 hover:bg-gray-600 text-gray-200"
               >
