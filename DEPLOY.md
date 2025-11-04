@@ -51,12 +51,7 @@ git push -u origin main
 2. Нажми "Add New Project"
 3. Import твой GitHub репозиторий
 4. Vercel автоматически определит что это Vite проект
-5. **ВАЖНО**: В разделе "Environment Variables" добавь:
-   ```
-   Name: GEMINI_API_KEY
-   Value: AIzaSyAH_2b-ZLAq8d_InMUvSObOmkWgiCXf694
-   ```
-6. Нажми "Deploy"
+
 
 #### Вариант Б: Через CLI
 ```bash
