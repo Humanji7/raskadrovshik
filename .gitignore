@@ -25,3 +25,8 @@ dist-ssr
 
 # Vercel
 .vercel
+
+# Environment
+.env
+.env.local
+.env.production
