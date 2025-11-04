@@ -1,0 +1,5 @@
+{
+  "name": "Раскадровщик курильщика",
+  "description": "An AI-powered storyboard generator that synthesizes a new image from a reference sketch and a text prompt, creating four professional, monochrome sketch variations.",
+  "requestFramePermissions": []
+}
