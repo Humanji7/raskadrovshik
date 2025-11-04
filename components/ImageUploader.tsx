@@ -7,18 +7,71 @@ interface ImageUploaderProps {
 const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageSelect }) => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-  const handleFileChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+  const compressImage = (file: File): Promise<{ base64: string; mimeType: string; dataUrl: string }> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          if (!ctx) {
+            reject(new Error('Failed to get canvas context'));
+            return;
+          }
+
+          // Calculate new dimensions (max 1024px on longest side)
+          const maxSize = 1024;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > maxSize) {
+              height = (height * maxSize) / width;
+              width = maxSize;
+            }
+          } else {
+            if (height > maxSize) {
+              width = (width * maxSize) / height;
+              height = maxSize;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Compress to JPEG with quality 0.8
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.8);
+          const base64String = compressedDataUrl.split(',')[1];
+
+          console.log('[ImageUploader] Original size:', file.size, 'Compressed base64 length:', base64String.length);
+
+          resolve({
+            base64: base64String,
+            mimeType: 'image/jpeg',
+            dataUrl: compressedDataUrl
+          });
+        };
+        img.onerror = () => reject(new Error('Failed to load image'));
+        img.src = e.target?.result as string;
+      };
+      reader.onerror = () => reject(new Error('Failed to read file'));
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleFileChange = useCallback(async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const result = reader.result as string;
-        setPreviewUrl(result);
-        // Remove the data URL prefix for the API call
-        const base64String = result.split(',')[1];
-        onImageSelect({ base64: base64String, mimeType: file.type });
-      };
-      reader.readAsDataURL(file);
+      try {
+        const compressed = await compressImage(file);
+        setPreviewUrl(compressed.dataUrl);
+        onImageSelect({ base64: compressed.base64, mimeType: compressed.mimeType });
+      } catch (error) {
+        console.error('[ImageUploader] Error compressing image:', error);
+        alert('Не удалось обработать изображение. Попробуй другое.');
+      }
     }
   }, [onImageSelect]);
 
