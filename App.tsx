@@ -15,9 +15,38 @@ const styles = [
     prompt: `The style is a dynamic, expressive pencil sketch. Use a range of tonal values from light grays to deep blacks to create depth and atmosphere. Employ techniques like cross-hatching and gradated shading to define forms and indicate lighting. The linework should be confident and energetic, not sterile or architectural.`
   },
   {
-    id: 'marker',
-    name: 'Жирный маркер',
-    prompt: `The style is a high-contrast, bold marker sketch, similar to architectural storyboards. Use thick, confident lines to define shapes and solid black areas for deep shadows. Avoid fine details and gradients. The focus should be on clear, readable composition and form.`
+    id: 'enhanced-shadows',
+    name: 'Светотень Pro',
+    prompt: `Transform this into a highly detailed, refined sketch composition with emphasis on sophisticated shadow work and lighting.
+
+Style Requirements:
+- Medium: Professional pencil/graphite with selective charcoal for deep shadows
+- Line Quality: Precise, confident linework with varying line weights (thin for highlights, thick for shadow boundaries)
+- Shadow Technique: Use a combination of cross-hatching, gradient shading, and solid blacks
+- Tonal Range: Full spectrum from bright highlights to deep, rich blacks with at least 7-9 distinct gray values
+- Details: High level of refinement in both foreground and background elements
+
+Lighting and Shadow Instructions:
+- Establish a clear, consistent light source direction
+- Create dramatic cast shadows with soft, graduated edges where appropriate
+- Use core shadows to define three-dimensional form
+- Add reflected light in shadow areas for depth and realism
+- Employ occlusion shadows in crevices and contact points
+- Create atmospheric depth through shadow intensity variation
+
+Composition:
+- Maintain strong focal points through contrast and detail density
+- Use shadows to guide the viewer's eye through the composition
+- Balance detailed areas with simplified passages for visual rest
+- Preserve the original composition's intent while elevating execution quality
+
+Technical Execution:
+- Avoid flat, uniform tones - always show subtle variation
+- Blend transitions between light and shadow smoothly
+- Preserve edge quality - sharp where needed, soft where appropriate
+- Ensure shadows feel grounded and dimensionally accurate
+
+The final result should feel like a masterful architectural concept sketch or film storyboard - polished, professional, and production-ready with exceptional attention to light, form, and atmosphere through shadow rendering.`
   },
   {
     id: 'charcoal',
