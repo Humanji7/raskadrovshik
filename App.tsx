@@ -10,11 +10,6 @@ interface ImageState {
 
 const styles = [
   {
-    id: 'pencil',
-    name: 'Карандашный эскиз',
-    prompt: `The style is a dynamic, expressive pencil sketch. Use a range of tonal values from light grays to deep blacks to create depth and atmosphere. Employ techniques like cross-hatching and gradated shading to define forms and indicate lighting. The linework should be confident and energetic, not sterile or architectural.`
-  },
-  {
     id: 'enhanced-shadows',
     name: 'Светотень Pro',
     prompt: `Transform this into a highly detailed, refined sketch composition with emphasis on sophisticated shadow work and lighting.
@@ -47,16 +42,6 @@ Technical Execution:
 - Ensure shadows feel grounded and dimensionally accurate
 
 The final result should feel like a masterful architectural concept sketch or film storyboard - polished, professional, and production-ready with exceptional attention to light, form, and atmosphere through shadow rendering.`
-  },
-  {
-    id: 'charcoal',
-    name: 'Мягкий уголь',
-    prompt: `The style is a soft charcoal drawing. Emphasize atmosphere and mood through blended tones and soft edges. Use smudging and blending techniques to create smooth gradients for light and shadow. Linework should be suggestive rather than sharp and precise. The overall feel should be smoky and expressive.`
-  },
-  {
-    id: 'ink',
-    name: 'Тушь и вода',
-    prompt: `The style is a traditional ink wash painting (Sumi-e style). Use varying dilutions of black ink to create a wide range of grayscale tones. Focus on minimalism, expressive brushstrokes, and the interplay between light and shadow. The composition should feel fluid and artistic, capturing the essence of the scene with minimal lines.`
   },
 ];
 
@@ -245,24 +230,6 @@ const App: React.FC = () => {
               className="w-full h-40 p-3 bg-gray-900 border border-gray-600 rounded-md focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition-colors placeholder-gray-500"
             />
           </div>
-          <div>
-            <h2 className="text-lg font-semibold mb-2 text-yellow-400">3. Определись со стилем</h2>
-            <div className="grid grid-cols-2 gap-2">
-              {styles.map(style => (
-                <button
-                  key={style.id}
-                  onClick={() => setSelectedStyle(style.id)}
-                  className={`py-2 px-3 text-sm font-semibold rounded-md transition-colors duration-200
-                    ${selectedStyle === style.id
-                      ? 'bg-yellow-500 text-gray-900 ring-2 ring-offset-2 ring-offset-gray-800 ring-yellow-500'
-                      : 'bg-gray-700 hover:bg-gray-600 text-gray-200'
-                    }`}
-                >
-                  {style.name}
-                </button>
-              ))}
-            </div>
-          </div>
           <button
             onClick={handleSubmit}
             disabled={isButtonDisabled}
@@ -286,7 +253,7 @@ const App: React.FC = () => {
 
         {/* Output Panel */}
         <div className="bg-gray-800 p-6 rounded-lg border border-gray-700 flex flex-col">
-          <h2 className="text-lg font-semibold mb-4 text-yellow-400">4. Вот что вышло</h2>
+          <h2 className="text-lg font-semibold mb-4 text-yellow-400">3. Вот что вышло</h2>
 
           {/* Main Preview Area */}
           <div className="flex-grow w-full bg-gray-900 rounded-md flex items-center justify-center p-4 min-h-[400px] lg:min-h-[500px] relative">
@@ -301,7 +268,7 @@ const App: React.FC = () => {
             )}
             {error && <p className="text-red-400">{error}</p>}
             {!isLoading && !error && generatedImages.length === 0 && (
-              <p className="text-gray-500">Здесь появятся 4 варианта твоего будущего шедевра.</p>
+              <p className="text-gray-500">Здесь появится твой будущий шедевр в стиле "Светотень Pro".</p>
             )}
             {generatedImages.length > 0 && (
               <div className="relative w-full h-full flex items-center justify-center">

@@ -8,16 +8,12 @@ AI-powered storyboard generator that transforms rough sketches into professional
 
 ## Features
 
-- **AI-Powered Generation**: Upload a sketch and get 4 professional storyboard variations
-- **Multiple Artistic Styles**:
-  - **Карандашный эскиз** - Dynamic pencil sketch with expressive hatching
-  - **Светотень Pro** - Detailed style with professional shadow work and 7-9 tonal gradations
-  - **Мягкий уголь** - Atmospheric charcoal with soft, blended edges
-  - **Тушь и вода** - Minimalist Sumi-e ink wash style
+- **AI-Powered Generation**: Upload a sketch and get a professional storyboard in "Светотень Pro" style
+- **Светотень Pro Style**: Highly detailed style with professional shadow work, 7-9 tonal gradations, and sophisticated lighting
 - **Smart Image Processing**: Automatic compression to avoid payload size limits
 - **AI Description Generator**: Let AI analyze your sketch and create a scene description
 - **Edit & Refine**: Apply text-based edits to generated images
-- **Variations**: Generate multiple versions of the same concept
+- **Variations**: Generate different versions based on your sketch
 
 ## Tech Stack
 
@@ -81,7 +77,7 @@ vercel --prod
 ```
 raskadrovshik/
 ├── api/                          # Vercel Serverless Functions
-│   ├── generate-storyboards.ts   # Generate 4 storyboard variations
+│   ├── generate-storyboards.ts   # Generate storyboard in Светотень Pro style
 │   ├── generate-description.ts   # AI description from sketch
 │   └── edit-image.ts             # Edit image with text instructions
 ├── components/                   # React components
@@ -97,7 +93,7 @@ raskadrovshik/
 ## API Endpoints
 
 ### POST /api/generate-storyboards
-Generate 4 storyboard variations from a sketch.
+Generate a professional storyboard from a sketch in "Светотень Pro" style.
 
 ### POST /api/generate-description
 Generate a text description from an uploaded sketch.
@@ -139,8 +135,13 @@ All API requests are logged with full details, making debugging and monitoring e
 
 ## Recent Updates
 
-### November 2025 - "Светотень Pro" Style
-Replaced "Жирный маркер" style with "Светотень Pro" - a highly detailed style featuring:
+### November 2025 - Cost Optimization & Focus on Quality
+- **Optimized API usage**: Reduced from 4 to 1 image generation per request (4x cost reduction)
+- **Single premium style**: Focused exclusively on "Светотень Pro" for consistent, high-quality results
+- **Streamlined UX**: Simplified interface by removing style selection step
+- **Better for free tier**: Stays within Gemini API free tier limits (1,500 requests/day)
+
+### "Светотень Pro" Style Features
 - Professional shadow work with 7-9 tonal gradations
 - Multiple shadow techniques (cast, core, occlusion, reflected light)
 - Precise linework with varying line weights
