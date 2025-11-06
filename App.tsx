@@ -46,6 +46,8 @@ The final result should feel like a masterful architectural concept sketch or fi
 ];
 
 
+const APP_VERSION = 'v2.0-single-style'; // Updated: single style optimization
+
 const App: React.FC = () => {
   const [prompt, setPrompt] = useState<string>('');
   const [image, setImage] = useState<ImageState | null>(null);
@@ -188,7 +190,7 @@ const App: React.FC = () => {
         <h1 className="text-2xl font-bold text-center">
           <span className="text-yellow-400">🚬</span> Раскадровщик курильщика
         </h1>
-        <p className="text-center text-gray-400 text-sm">давай действуй, я не знаю</p>
+        <p className="text-center text-gray-400 text-sm">давай действуй, я не знаю <span className="text-gray-600 text-xs">({APP_VERSION})</span></p>
       </header>
 
       <main className="flex-grow container mx-auto p-4 lg:p-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
