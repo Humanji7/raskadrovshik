@@ -1,6 +1,7 @@
 import { GoogleGenAI, Modality } from "@google/genai";
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+const API_VERSION = 'v2.0-single-image'; // Updated: single image generation
 const API_KEY = process.env.GEMINI_API_KEY;
 
 if (!API_KEY) {
@@ -47,7 +48,7 @@ const generateSingleImage = async (prompt: string, image: any, stylePrompt: stri
 };
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  console.log('[generate-storyboards] Request received');
+  console.log(`[generate-storyboards ${API_VERSION}] Request received`);
 
   if (req.method !== 'POST') {
     console.log('[generate-storyboards] Method not allowed:', req.method);
@@ -81,9 +82,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const images = [generatedImage];
 
     const duration = Date.now() - startTime;
-    console.log(`[generate-storyboards] Success! Generated 1 image in ${duration}ms`);
+    console.log(`[generate-storyboards ${API_VERSION}] Success! Generated 1 image in ${duration}ms`);
 
-    return res.status(200).json({ images });
+    return res.status(200).json({ images, version: API_VERSION });
   } catch (error) {
     console.error("[generate-storyboards] Error:", error);
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
