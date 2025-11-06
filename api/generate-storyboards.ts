@@ -74,20 +74,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: 'Invalid image data' });
     }
 
-    console.log('[generate-storyboards] Starting generation of 4 images...');
+    console.log('[generate-storyboards] Starting generation of 1 image...');
     const startTime = Date.now();
 
-    const generationPromises = [
-      generateSingleImage(prompt, image, stylePrompt),
-      generateSingleImage(prompt, image, stylePrompt),
-      generateSingleImage(prompt, image, stylePrompt),
-      generateSingleImage(prompt, image, stylePrompt),
-    ];
-
-    const images = await Promise.all(generationPromises);
+    const generatedImage = await generateSingleImage(prompt, image, stylePrompt);
+    const images = [generatedImage];
 
     const duration = Date.now() - startTime;
-    console.log(`[generate-storyboards] Success! Generated 4 images in ${duration}ms`);
+    console.log(`[generate-storyboards] Success! Generated 1 image in ${duration}ms`);
 
     return res.status(200).json({ images });
   } catch (error) {
