@@ -4,7 +4,7 @@
 <img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
 
-AI-powered storyboard generator that transforms rough sketches into professional monochrome storyboards using Google Gemini AI.
+AI-powered storyboard generator that transforms rough sketches into professional monochrome storyboards using Alibaba Cloud Qwen API.
 
 ## Features
 
@@ -19,7 +19,7 @@ AI-powered storyboard generator that transforms rough sketches into professional
 
 - **Frontend**: React 19 + TypeScript + Vite + Tailwind CSS
 - **Backend**: Vercel Serverless Functions
-- **AI**: Google Gemini AI (gemini-2.5-flash-image)
+- **AI**: Alibaba Cloud Qwen API (qwen-image-edit-plus, qwen-vl-plus)
 - **Deployment**: Vercel
 
 ## Getting Started
@@ -27,7 +27,7 @@ AI-powered storyboard generator that transforms rough sketches into professional
 ### Prerequisites
 
 - Node.js (v18 or higher)
-- Gemini API key from [Google AI Studio](https://aistudio.google.com/app/apikey)
+- Qwen API key from [Alibaba Cloud Model Studio](https://bailian.console.aliyun.com/?apiKey=1#/api-key)
 
 ### Installation
 
@@ -44,7 +44,7 @@ AI-powered storyboard generator that transforms rough sketches into professional
 
 3. Create `.env.local` file:
    ```bash
-   GEMINI_API_KEY=your_gemini_api_key_here
+   QWEN_API_KEY=your_qwen_api_key_here
    ```
 
 4. Run the development server:
@@ -105,13 +105,13 @@ Apply text-based edits to a generated image.
 
 ### Production (Vercel Dashboard)
 ```bash
-GEMINI_API_KEY=your_google_ai_api_key
+QWEN_API_KEY=your_qwen_api_key
 ```
 
 ### Local Development
 ```bash
 # .env.local
-GEMINI_API_KEY=your_google_ai_api_key
+QWEN_API_KEY=your_qwen_api_key
 ```
 
 ## Key Features Explained
@@ -135,11 +135,12 @@ All API requests are logged with full details, making debugging and monitoring e
 
 ## Recent Updates
 
-### November 2025 - Cost Optimization & Focus on Quality
-- **Optimized API usage**: Reduced from 4 to 1 image generation per request (4x cost reduction)
-- **Single premium style**: Focused exclusively on "Светотень Pro" for consistent, high-quality results
-- **Streamlined UX**: Simplified interface by removing style selection step
-- **Better for free tier**: Stays within Gemini API free tier limits (1,500 requests/day)
+### November 2025 - Migration to Qwen API (v3.0)
+- **Migrated to Qwen API**: Switched from Google Gemini to Alibaba Cloud Qwen for better cost-effectiveness
+- **Image-to-image transformation**: Now using qwen-image-edit-plus for high-quality sketch transformation
+- **AI vision descriptions**: Using qwen-vl-plus for automatic scene description generation
+- **Maintained quality**: Same professional "Светотень Pro" style with improved API performance
+- **Cost optimization**: Reduced from 4 to 1 image generation per request (4x cost reduction)
 
 ### "Светотень Pro" Style Features
 - Professional shadow work with 7-9 tonal gradations
@@ -153,7 +154,7 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 
 ## License
 
-This project is built with Google Gemini AI and is subject to Google's terms of service.
+This project is built with Alibaba Cloud Qwen API and is subject to Alibaba Cloud's terms of service.
 
 ## Links
 

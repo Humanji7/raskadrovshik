@@ -46,7 +46,7 @@ The final result should feel like a masterful architectural concept sketch or fi
 ];
 
 
-const APP_VERSION = 'v2.0-single-style'; // Updated: single style optimization
+const APP_VERSION = 'v3.0-qwen-api'; // Updated: migrated to Qwen API
 
 const App: React.FC = () => {
   const [prompt, setPrompt] = useState<string>('');

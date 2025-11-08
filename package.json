@@ -11,9 +11,8 @@
     "deploy:preview": "vercel"
   },
   "dependencies": {
-    "@google/genai": "^1.28.0",
-    "react-dom": "^19.2.0",
-    "react": "^19.2.0"
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
