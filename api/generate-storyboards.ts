@@ -1,8 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-const API_VERSION = 'v3.0-qwen-image-edit';
-const QWEN_API_KEY = process.env.QWEN_API_KEY;
-const QWEN_ENDPOINT = 'https://dashscope-intl.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation';
+const API_VERSION = 'v2.0-single-image'; // Updated: single image generation
+const API_KEY = process.env.GEMINI_API_KEY;
 
 if (!QWEN_API_KEY) {
   throw new Error("QWEN_API_KEY environment variable not set");
@@ -133,7 +132,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const images = [generatedImage];
 
     const duration = Date.now() - startTime;
-    console.log(`[generate-storyboards ${API_VERSION}] Success! Generated in ${duration}ms`);
+    console.log(`[generate-storyboards ${API_VERSION}] Success! Generated 1 image in ${duration}ms`);
 
     return res.status(200).json({ images, version: API_VERSION });
   } catch (error) {
